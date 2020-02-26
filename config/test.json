@@ -1,0 +1,1 @@
+{"db":"mongodb://zkboys:zkboys110@134.175.116.254:27017/zkboys-test","blackList":{"projects":["222222222233333333331212"],"ips":["127.0.0.1"]},"upload":{"dir":"../public/upload/test","expire":{"types":[".json"],"day":1}}}

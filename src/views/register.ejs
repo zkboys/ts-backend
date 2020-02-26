@@ -1,0 +1,114 @@
+<head>
+    <title>新用户注册</title>
+    <style>
+        .register-root {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .register-item {
+            margin-bottom: 10px;
+        }
+
+        .register-item label {
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+        }
+
+        .error {
+            color: red;
+        }
+
+    </style>
+</head>
+
+<div class="register-root">
+    <div>
+        <h2 style="text-align: center">注册 登录</h2>
+        <div class="register-item">
+            <label for="name">用户名：</label>
+            <input class="form-input" id="name" type="text" name="name" value="admin2" placeholder="请输入用户名">
+        </div>
+        <div class="register-item">
+            <label for="password">密码：</label>
+            <input class="form-input" id="password" type="password" name="password" value="123" placeholder="请输入密码">
+        </div>
+        <div class="register-item">
+            <label for="register"></label>
+            <button id="register" class="form-button">注册</button>
+            <button id="login" class="form-button">登录</button>
+            <button id="project" class="form-button">请求</button>
+        </div>
+        <div class="error"></div>
+    </div>
+</div>
+<h1>5555</h1>
+<script src="/public/js/main.js"></script>
+<script>
+
+    let token = '';
+    $('#register').on('click', function () {
+
+        const name = $('#name').val();
+        const password = $('#password').val();
+        const data = {
+            name,
+            password,
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/register',
+            data,
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (err) {
+
+                $('.error').html(JSON.stringify(err.responseJSON.data || err.responseJSON.message, null, 4));
+            },
+        });
+    });
+
+    $('#login').on('click', function () {
+        const name = $('#name').val();
+        const password = $('#password').val();
+        const data = {
+            name,
+            password,
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/u/login',
+            data,
+            success: function (res) {
+                token = res.token;
+            },
+            error: function (err) {
+                console.log(err);
+            },
+        });
+    });
+    $('#project').on('click', function () {
+
+
+        $.ajax({
+            headers: {
+                Authorization: `Bearer ${token}`, // 授权 token使用方式
+            },
+            type: 'GET',
+            url: '/api/project?page_size=30&page_index=1&keywords=&type=&group=&filter_by_author=0',
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (err) {
+                console.log(err);
+            },
+        });
+    });
+
+</script>

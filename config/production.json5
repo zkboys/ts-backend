@@ -1,0 +1,12 @@
+{
+    // 数据库连接
+    db: 'mongodb://zkboys:zkboys110@134.175.116.254:27017/zkboys',
+    dbEntitiesPath: 'dist/entity/**/*.js',
+    redis: {
+        keyPrefix: '[zkboys]',
+        port: 6379,
+        host: '134.175.116.254',
+        password: 'zkboys123',
+        db: 0
+    },
+}
