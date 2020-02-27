@@ -30,6 +30,19 @@ const port = config.get('port');
 const host = getIp();
 
 
+import { BaseContext } from 'koa';
+
+declare module 'koa' {
+    interface BaseContext {
+        success: any;
+        fail: any;
+        params: any;
+        state: any;
+        request: any;
+    }
+}
+
+
 // Get DB connection options from env variable
 const connectionOptions = new ConnectionString(databaseUrl);
 const {user: username, password} = connectionOptions;
@@ -37,7 +50,6 @@ const h = connectionOptions.hosts[0];
 const dbHost = h.name;
 const dbPort = h.port;
 const database = connectionOptions.path[0];
-
 
 // create connection with database
 // note that its not active database connection
@@ -85,8 +97,8 @@ createConnection({
 
     // JWT middleware -> below this line routes are only reached if JWT token is valid, secret as env variable
     // do not protect swagger-json and swagger-html endpoints
+    // @ts-ignore
     app.use(jwt({secret: jwtSecret}).unless(ctx => {
-
         if (/^\/swagger-/.test(ctx.path)) return true;
         if (/^\/api\/swagger-/.test(ctx.path)) return true;
 

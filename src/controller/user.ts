@@ -11,7 +11,6 @@ export default class UserController {
     @request('get', '/users')
     @summary('Find all users')
     public static async getUsers(ctx: BaseContext) {
-
         // get a user repository to perform operations with user
         const userRepository: Repository<User> = getManager().getRepository(User);
 
@@ -177,25 +176,14 @@ export default class UserController {
     @summary('注册用户')
     @body(userSchema)
     public static async register(ctx: BaseContext) {
+        const userPrep: Repository<User> = User.getRepository();
+        const user: User = new User(ctx.request.body);
+        const errors: ValidationError[] = await user.validate();
 
-        // get a user repository to perform operations with user
-        const userRepository: Repository<User> = getManager().getRepository(User);
-        // build up entity user to be saved
-        const userToBeSaved: User = new User();
-        userToBeSaved.name = ctx.request.body.name;
-        // userToBeSaved.email = '11123123123123.com';
-        userToBeSaved.password = ctx.request.body.password;
+        if (errors?.length > 0) return ctx.fail(errors);
 
-        // validate user entity
-        const errors: ValidationError[] = await validate(userToBeSaved, {skipMissingProperties: true}); // errors is an array of validation errors
+        if (await userPrep.findOne({email: user.email})) return ctx.fail('e-mail 已经存在！');
 
-        if (errors.length > 0) return ctx.fail(errors);
-
-        if (await userRepository.findOne({email: userToBeSaved.email})) return ctx.fail('e-mail 已经存在！');
-
-        const user = await userRepository.save(userToBeSaved);
-        return ctx.success(user);
+        return ctx.success(await userPrep.save(user));
     }
-
-
 }
