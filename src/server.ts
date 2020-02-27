@@ -1,5 +1,5 @@
 import path from 'path';
-import Koa from 'koa';
+import Koa, { BaseContext } from 'koa';
 import jwt from 'koa-jwt';
 import bodyParser from 'koa-bodyparser';
 import helmet from 'koa-helmet';
@@ -13,13 +13,13 @@ import { ConnectionString } from 'connection-string';
 import { pathToRegexp } from 'path-to-regexp';
 import config from 'config';
 
-import { logger } from './logging';
-import * as router from './routes';
-import { cron } from './cron';
-import { getIp } from './utl';
-import render from './middlewares/layout-ejs';
-import middleware from './middlewares';
-import { patchClassValidatorI18n } from './utl/class-validator-i18n';
+import { logger } from '@/logging';
+import * as router from '@/routes';
+import { cron } from '@/cron';
+import { getIp } from '@utl';
+import render from '@middleware/layout-ejs';
+import middleware from '@middleware';
+import { patchClassValidatorI18n } from '@utl/class-validator-i18n';
 
 patchClassValidatorI18n();
 
@@ -29,19 +29,15 @@ const jwtSecret = config.get('jwt.secret');
 const port = config.get('port');
 const host = getIp();
 
-
-import { BaseContext } from 'koa';
-
 declare module 'koa' {
     interface BaseContext {
-        success: any;
-        fail: any;
+        success: (data?: any) => void;
+        fail: (message?: any, code?: number, data?: any) => void;
         params: any;
         state: any;
         request: any;
     }
 }
-
 
 // Get DB connection options from env variable
 const connectionOptions = new ConnectionString(databaseUrl);

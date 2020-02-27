@@ -4,7 +4,7 @@
   "description": "API REST using NodeJS and KOA framework, typescript. TypeORM for SQL with class-validators. Middlewares JWT, CORS, Winston Logger. Swagger API docs",
   "main": "dist/server.js",
   "scripts": {
-    "start": "nodemon --watch src -e ts,tsx --exec ts-node src/server.ts",
+    "start": "nodemon --watch src -e ts,tsx --exec ts-node -r tsconfig-paths/register src/server.ts",
     "build-ts": "tsc",
     "copy-static-assets": "ts-node copyStaticAssets.ts",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
@@ -52,6 +52,7 @@
     "nodemon": "^1.19.1",
     "shelljs": "^0.8.2",
     "ts-node": "^8.3.0",
+    "tsconfig-paths": "^3.9.0",
     "tslint": "^5.20.1",
     "typescript": "^3.8.2"
   },
