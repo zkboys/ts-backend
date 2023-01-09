@@ -72,7 +72,7 @@
     "koa-ejs": "^4.3.0",
     "koa-favicon": "^2.0.1",
     "koa-helmet": "^4.2.0",
-    "koa-jwt": "^3.3.2",
+    "koa-jwt": "^4.0.4",
     "koa-router": "^7.4.0",
     "koa-static-cache": "^5.1.2",
     "koa-swagger-decorator": "^1.6.1",
