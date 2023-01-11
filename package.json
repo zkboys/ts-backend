@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "@koa/cors": "^3.0.0",
-    "class-validator": "^0.11.0",
+    "class-validator": "^0.14.0",
     "config": "^3.2.6",
     "connection-string": "^3.1.1",
     "cron": "^1.7.2",
